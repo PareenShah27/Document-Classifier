@@ -1,4 +1,5 @@
-# Sports vs Politics Document Classifier (NLU Assignment – Problem 4)
+# Sports vs Politics Document Classifier 
+# (NLU Assignment – Problem 4)
 
 ## Course Information
 
@@ -174,6 +175,7 @@ This project demonstrates a complete NLP pipeline for document classification us
 ---
 
 *This repository is part of NLU Assignment 1 (Problem 4) and is intended for academic evaluation only.*
+
 
 
 
