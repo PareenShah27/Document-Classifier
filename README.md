@@ -1,218 +1,179 @@
-# 🏟️📊 Sports vs Politics Text Classification  
-**Problem 4 – NLU Assignment 1**
+# Sports vs Politics Document Classifier (NLU Assignment – Problem 4)
+
+## Course Information
+
+* **Course**: CSL 7640 – Natural Language Understanding
+* **Assignment**: Assignment 1 – Problem 4
+* **Task**: Classify documents as **Sports** or **Politics** using machine learning
 
 ---
 
 ## 1. Problem Statement
 
-The objective of this project is to design a text classification system that classifies a given document into one of the following categories:
+The objective of this task is to design a document-level text classifier that automatically categorizes an input document as either **Sports** or **Politics**. The system must:
 
-- **SPORTS**
-- **POLITICS**
-
-The system uses traditional machine learning techniques with different feature representations and compares their performance quantitatively.
-
----
-
-## 2. Dataset Collection
-
-### 2.1 Data Sources
-
-The dataset consists of news articles collected from publicly available sources.
-
-**Sports Articles Sources:**
-- ESPN  
-- Cricbuzz  
-- BBC Sports  
-- Sports sections of newspapers  
-
-**Politics Articles Sources:**
-- BBC Politics  
-- The Hindu (Politics)  
-- Indian Express (Politics)  
-- Government policy news portals  
-
-Each document belongs strictly to **one class only**.
+* Read a text document (.txt or .pdf)
+* Extract and preprocess textual content
+* Represent documents using suitable feature representations
+* Train and compare **at least three machine learning models**
+* Quantitatively evaluate and compare model performance
 
 ---
 
-### 2.2 Dataset Structure
+## 2. Dataset Description
+
+### 2.1 Data Collection
+
+The dataset was manually curated using publicly available reports and articles related to:
+
+* **Sports**: match reports, sports policy documents, tournament summaries
+* **Politics**: political analysis reports, governance documents, policy briefs
+
+Documents were stored in the following directory structure:
 
 ```
 data/
-├── sports/
-│   ├── sport_1.pdf
-│   ├── sport_2.txt
-│   └── ...
-└── politics/
-    ├── politics_1.pdf
-    ├── politics_2.txt
-    └── ...
+ ├── sports/
+ │    ├── *.txt / *.pdf
+ └── politics/
+      ├── *.txt / *.pdf
 ```
 
-Each file contains **one full article** or **one document**.
+### 2.2 Dataset Characteristics
+
+* **Classes**: 2 (Sports, Politics)
+* **Formats supported**: `.txt`, `.pdf`
+* **Class balance**: Approximately balanced
+* **Document length**: Medium to long-form reports
 
 ---
 
-### 2.3 Dataset Statistics (To be filled)
+## 3. Preprocessing Pipeline
 
-| Class    | Number of Documents |
-|----------|---------------------|
-| Sports   | 9 |
-| Politics | 7 |
-| Total    | 16 |
+Each document undergoes the following preprocessing steps:
 
----
+1. Text extraction from `.txt` or `.pdf` files
+2. Lowercasing
+3. Removal of numbers and special characters
+4. Whitespace normalization
 
-## 3. Text Preprocessing
-
-Before feature extraction, the text is cleaned using the following steps:
-
-1. Convert text to lowercase  
-2. Remove punctuation and special characters  
-3. Tokenize text into words  
-4. Remove stopwords  
-5. Optional: remove very short tokens (length < 2)  
-
-**Note:**  
-Stemming and lemmatization are intentionally avoided to preserve interpretability.
+Only Python standard libraries and minimal utilities were used for preprocessing.
 
 ---
 
-## 4. Feature Engineering
+## 4. Feature Representation
 
-### 4.1 Bag of Words (BoW)
+The following feature representations were explored:
 
-- Represents documents as word frequency vectors  
-- Simple and interpretable  
-- High-dimensional sparse vectors  
+* **Bag of Words (BoW)**
+* **TF-IDF (Unigrams)**
+* **TF-IDF with Bigrams**
 
-**Advantages:**
-- Easy to implement  
-- Works well with Naive Bayes  
-
-**Limitations:**
-- Ignores word importance  
-- Treats all words equally  
-
----
-
-### 4.2 TF-IDF (Term Frequency – Inverse Document Frequency)
-
-- Penalizes frequent but uninformative words  
-- Highlights discriminative terms  
-
-TF-IDF(w,d) = TF(w,d) × log(N / DF(w))
-
-**Advantages:**
-- Improves classification accuracy  
-- Reduces effect of stopwords  
-
----
-
-### 4.3 N-grams (Optional Enhancement)
-
-- Uses unigrams and bigrams  
-- Captures contextual phrases like:  
-  - "prime minister"  
-  - "world cup"  
+Vectorizers were trained **only on training data** to avoid data leakage.
 
 ---
 
 ## 5. Machine Learning Models
 
-### 5.1 Naive Bayes
-- Probabilistic model  
-- Assumes feature independence  
-- Fast and memory efficient  
+Three supervised machine learning models were implemented and compared:
 
-### 5.2 Logistic Regression
-- Linear classifier  
-- Outputs probabilities  
-- Works well with TF-IDF features  
+1. **Naive Bayes (MultinomialNB)** with Bag of Words
+2. **Logistic Regression** with TF-IDF
+3. **Support Vector Machine (Linear Kernel)** with TF-IDF + Bigrams
 
-### 5.3 Support Vector Machine (SVM)
-- Maximizes margin between classes  
-- Performs well in high-dimensional spaces  
-- Typically achieves best accuracy for text tasks  
+All models were trained using scikit-learn.
 
 ---
 
-## 6. Experimental Setup
+## 6. Evaluation Strategy
 
-- Dataset split: **80% training / 20% testing**  
-- Same train-test split used for all models  
-- Hyperparameters kept minimal for fair comparison  
+### 6.1 Cross-Validation
 
----
+Due to limited dataset size, **Stratified 5-Fold Cross-Validation** was used to obtain reliable performance estimates while preserving class distribution.
 
-## 7. Evaluation Metrics
+### 6.2 Evaluation Metrics
 
-The models are evaluated using:
+The following metrics were reported:
 
-- Accuracy  
-- Precision  
-- Recall  
-- F1-score  
+* Accuracy
+* Precision (weighted)
+* Recall (weighted)
+* F1-score (weighted)
 
 ---
 
-## 8. Results and Comparison
+## 7. Results Summary
 
-| Model | Feature Type | Accuracy | Precision | Recall | F1 |
-|------|-------------|----------|-----------|--------|----|
-| Naive Bayes | BoW | TBD | TBD | TBD | TBD |
-| Logistic Regression | TF-IDF | TBD | TBD | TBD | TBD |
-| SVM | TF-IDF + Bigram | TBD | TBD | TBD | TBD |
+| Model                      | Accuracy  | Precision | Recall    | F1-score  |
+| -------------------------- | --------- | --------- | --------- | --------- |
+| Naive Bayes                | ~0.75     | ~0.79     | ~0.75     | ~0.72     |
+| Logistic Regression        | ~0.82     | ~0.79     | ~0.82     | ~0.78     |
+| **SVM (TF-IDF + Bigrams)** | **~0.87** | **~0.82** | **~0.87** | **~0.83** |
 
----
-
-## 9. Limitations
-
-- Overlap between sports and political vocabulary  
-- Dataset bias depending on source  
-- Models do not capture deep semantics  
-- Performance depends heavily on feature engineering  
+The SVM model achieved the best average performance across folds.
 
 ---
 
-## 10. Conclusion and Future Work
+## 8. Final Model Selection
 
-- TF-IDF with SVM performs best overall  
-- Feature representation plays a crucial role  
-- Future improvements may include:
-  - Word embeddings  
-  - Deep learning models  
-  - Larger and more diverse datasets  
+The model with the highest mean cross-validation accuracy was automatically selected and retrained on the **full dataset**. This final model was then used for interactive document classification.
 
 ---
 
-## 11. Repository Structure
+## 9. How to Run
+
+### 9.1 Install Dependencies
+
+```bash
+pip install scikit-learn pypdf pandas
+```
+
+### 9.2 Run the Classifier
+
+```bash
+python classifier.py
+```
+
+### 9.3 Interactive Mode
+
+After training, the system enters an interactive mode:
 
 ```
-sports-politics-classifier/
-│
+Enter file path: <path_to_document>
+```
+
+---
+
+## 10. Limitations
+
+* Small dataset size limits generalization
+* Overlap between sports governance and political documents
+* No semantic understanding beyond lexical features
+
+---
+
+## 11. Conclusion
+
+This project demonstrates a complete NLP pipeline for document classification using classical machine learning techniques. The results align with theoretical expectations, with SVM performing best on high-dimensional sparse text features.
+
+---
+
+## 12. Repository Structure
+
+```
+├── classifier.py
+├── preprocessor.py
+├── features.py
+├── train.py
+├── evaluate.py
 ├── data/
-│   ├── sports/
-│   └── politics/
-│
-├── src/
-│   ├── preprocess.py
-│   ├── features.py
-│   ├── train.py
-│   └── evaluate.py
-│
 ├── results/
-│   └── metrics.csv
-│
-├── report.pdf
 └── README.md
 ```
 
 ---
-## 12. Author
 
-- **Name:** <Your Name>  
-- **Roll Number:** <Your Roll Number>  
-- **Course:** Natural Language Understanding  
+*This repository is part of NLU Assignment 1 (Problem 4) and is intended for academic evaluation only.*
+
+
 
