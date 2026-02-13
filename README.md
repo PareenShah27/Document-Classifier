@@ -41,11 +41,11 @@ Each document belongs strictly to **one class only**.
 ```
 data/
 ├── sports/
-│   ├── sport_1.txt
+│   ├── sport_1.pdf
 │   ├── sport_2.txt
 │   └── ...
 └── politics/
-    ├── politics_1.txt
+    ├── politics_1.pdf
     ├── politics_2.txt
     └── ...
 ```
@@ -58,9 +58,9 @@ Each file contains **one full article** or **one document**.
 
 | Class    | Number of Documents |
 |----------|---------------------|
-| Sports   | TBD |
-| Politics | TBD |
-| Total    | TBD |
+| Sports   | 9 |
+| Politics | 7 |
+| Total    | 16 |
 
 ---
 
@@ -215,3 +215,4 @@ sports-politics-classifier/
 - **Name:** <Your Name>  
 - **Roll Number:** <Your Roll Number>  
 - **Course:** Natural Language Understanding  
+
